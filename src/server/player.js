@@ -4,7 +4,8 @@ class Player {
         this.username = username;
         this.x = x;
         this.y = y;
-        this.isHuman = isHuman
+        this.right = true;
+        this.isHuman = isHuman;
     }
 
     serializeForUpdate() {
@@ -12,6 +13,7 @@ class Player {
             id: this.id,
             x: this.x,
             y: this.y,
+            right: this.right,
             isHuman: this.isHuman,
         };
     }
@@ -19,6 +21,7 @@ class Player {
     setPosition(pos) {
         this.x = pos.x;
         this.y = pos.y;
+        this.right = pos.right;
     }
 }
 

@@ -1,5 +1,5 @@
 import constants from '../shared/constants'
-import { updatePosition } from './networking';
+import { play, updatePosition } from './networking';
 
 var game;
 var cursors;
@@ -8,6 +8,7 @@ var curPlayers = {};
 var players = [];
 
 let lastServerTimeStamp = null;
+let myId = null;
 
 
 export function playGame() {
@@ -57,8 +58,10 @@ function preload() {
 }
 
 function addPlayer(id, x, y) {
-    let newPlayer = game.scene.scenes[0].add.sprite(x, y, 'dog');
-    curPlayers[id] = newPlayer;
+    if (id != myId) {
+        let newPlayer = game.scene.scenes[0].add.sprite(x, y, 'dog');
+        curPlayers[id] = newPlayer;
+    }
 }
 
 function create() {
@@ -111,24 +114,34 @@ export function updatePlayers(playerUpdate) {
     if (!lastServerTimeStamp) {
         lastServerTimeStamp = playerUpdate.t;
     }
+    if (!myId) {
+        myId = playerUpdate.me.id;
+        // player.setPosition(playerUpdate.me.x, playerUpdate.me.y);
+
+    }
     if (playerUpdate.t > lastServerTimeStamp) {
         lastServerTimeStamp = playerUpdate.t;
         players = playerUpdate.others;
     }
+
 }
 
 function renderPlayers() {
     console.log('curPlayers', Object.keys(curPlayers).length);
     console.log('players', players.length);
-    players.forEach(player => {
-        if (!(player.id in Object.keys(curPlayers))) {
-            console.log(player.id);
-            console.log('here');
-            addPlayer(player.id, player.x, player.y);
-        }
-    });
+    if (Object.keys(curPlayers).length != players.length) {
+        players.forEach(player => {
+            console.log(player);
+            if (!(player.id in Object.keys(curPlayers))) {
+                addPlayer(player.id, player.x, player.y);
+            }
+        });
+    }
     players.forEach((player => {
-        curPlayers[player.id].setPosition(player.x, player.y);
+        if (player.id != myId) {
+            curPlayers[player.id].setPosition(player.x, player.y);
+            curPlayers[player.id].flipX = player.right;
+        }
     }));
 }
 
@@ -173,6 +186,6 @@ function update() {
     player.setVelocityX(xvel);
     player.setVelocityY(yvel);
 
-    updatePosition({ x: player.x, y: player.y });
+    updatePosition({ x: player.x, y: player.y, right: player.flipX });
 
 }
