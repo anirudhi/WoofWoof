@@ -36,7 +36,7 @@ function preload()
 {
   // this.load.setBaseURL('http://labs.phaser.io');
 
-  this.load.image('ground', 'assets/gravel.png');
+  this.load.image('ground', 'assets/map.png');
   this.load.spritesheet('dog', 'assets/dog.gif', {frameWidth: 32, frameHeight: 20});
   cursors = this.input.keyboard.createCursorKeys();
   // this.load.image('logo', 'assets/sprites/phaser3-logo.png');
@@ -45,7 +45,8 @@ function preload()
 
 function create()
 {
-  this.add.tileSprite(400, 300, 800, 600, 'ground');
+  // this.add.tileSprite(400, 300, 800, 600, 'ground');
+  this.add.image(400, 300, 'ground');
 
   // omitting var makes it a global variable
   player = this.physics.add.sprite(32, 20, 'dog');
@@ -61,7 +62,7 @@ function create()
 
   this.anims.create({
       key: 'left',
-      frames: this.anims.generateFrameNumbers('dog', {start: 8, end: 12}),
+      frames: this.anims.generateFrameNumbers('dog', {start: 8, end: 15}),
       frameRate: 10,
       repeat: -1 // repeat infinitely
   });
@@ -89,6 +90,7 @@ function create()
 
   // emitter.startFollow(logo);
 }
+
 function update()
 {
   // player.setVelocityX(0);
