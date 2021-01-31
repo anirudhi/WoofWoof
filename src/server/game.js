@@ -66,7 +66,11 @@ class Game {
         return {
             t: Date.now(),
             me: player.serializeForUpdate(),
-            others: Object.keys(this.players).map(playerId => this.players[playerId].serializeForUpdate()),
+            others: Object.keys(this.players).filter(
+                playerId => playerId != player.id
+            ).map(
+                playerId => this.players[playerId].serializeForUpdate()
+            ),
         };
     }
 }

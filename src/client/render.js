@@ -1,11 +1,12 @@
 import constants from '../shared/constants'
 import { play, updatePosition } from './networking';
+import { getCurrentState } from './state'
 
 var game;
 var cursors;
 var player;
 var curPlayers = {};
-var players = [];
+// var players = [];
 
 let lastServerTimeStamp = null;
 let myId = null;
@@ -59,7 +60,7 @@ function preload() {
 
 function addPlayer(id, x, y) {
     if (id != myId) {
-        let newPlayer = game.scene.scenes[0].add.sprite(x, y, 'dog');
+        let newPlayer = this.add.sprite(x, y, 'dog');
         curPlayers[id] = newPlayer;
     }
 }
@@ -127,21 +128,27 @@ export function updatePlayers(playerUpdate) {
 }
 
 function renderPlayers() {
-    console.log('curPlayers', Object.keys(curPlayers).length);
-    console.log('players', players.length);
-    if (Object.keys(curPlayers).length != players.length) {
-        players.forEach(player => {
-            console.log(player);
-            if (!(player.id in Object.keys(curPlayers))) {
+    // console.log('curPlayers', Object.keys(curPlayers).length);
+    // console.log('players', players.length);
+    
+    let serverUpdate = getCurrentState();
+    // console.log('update', serverUpdate);
+
+    
+    // if (Object.keys(curPlayers).length != players.length) {
+    //     players.forEach(player => {
+    //         console.log(player);
+    //         if (!(player.id in Object.keys(curPlayers))) {
+    //             addPlayer(player.id, player.x, player.y);
+    //         }
+    //     });
+    // }
+    serverUpdate.others.forEach((player => {
+        if (!(player.id in Object.keys(curPlayers))) {
                 addPlayer(player.id, player.x, player.y);
-            }
-        });
-    }
-    players.forEach((player => {
-        if (player.id != myId) {
-            curPlayers[player.id].setPosition(player.x, player.y);
-            curPlayers[player.id].flipX = player.right;
         }
+        curPlayers[player.id].setPosition(player.x, player.y);
+        curPlayers[player.id].flipX = player.right;
     }));
 }
 

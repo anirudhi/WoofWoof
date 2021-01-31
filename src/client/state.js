@@ -18,8 +18,6 @@ export function processGameUpdate(update) {
     }
     gameUpdates.push(update);
 
-    updateLeaderboard(update.leaderboard);
-
     // Keep only one game update before the current server time
     const base = getBaseUpdate();
     if (base > 0) {
@@ -49,23 +47,26 @@ export function getCurrentState() {
         return {};
     }
 
-    const base = getBaseUpdate();
-    const serverTime = currentServerTime();
+    return gameUpdates[gameUpdates.length - 1];
+    
+    // No interpolation yet
+    // const base = getBaseUpdate();
+    // const serverTime = currentServerTime();
 
-    // If base is the most recent update we have, use its state.
-    // Otherwise, interpolate between its state and the state of (base + 1).
-    if (base < 0 || base === gameUpdates.length - 1) {
-        return gameUpdates[gameUpdates.length - 1];
-    } else {
-        const baseUpdate = gameUpdates[base];
-        const next = gameUpdates[base + 1];
-        const ratio = (serverTime - baseUpdate.t) / (next.t - baseUpdate.t);
-        return {
-            me: interpolateObject(baseUpdate.me, next.me, ratio),
-            others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
-            bullets: interpolateObjectArray(baseUpdate.bullets, next.bullets, ratio),
-        };
-    }
+    // // If base is the most recent update we have, use its state.
+    // // Otherwise, interpolate between its state and the state of (base + 1).
+    // if (base < 0 || base === gameUpdates.length - 1) {
+    //     return gameUpdates[gameUpdates.length - 1];
+    // } else {
+    //     const baseUpdate = gameUpdates[base];
+    //     const next = gameUpdates[base + 1];
+    //     const ratio = (serverTime - baseUpdate.t) / (next.t - baseUpdate.t);
+    //     return {
+    //         me: interpolateObject(baseUpdate.me, next.me, ratio),
+    //         others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
+    //         bullets: interpolateObjectArray(baseUpdate.bullets, next.bullets, ratio),
+    //     };
+    // }
 }
 
 function interpolateObject(object1, object2, ratio) {
