@@ -21,9 +21,8 @@ class Game {
         const x = Constants.MAP_WIDTH * (0.25 + Math.random() * 0.5);
         const y = Constants.MAP_HEIGHT * (0.25 + Math.random() * 0.5);
         let isHuman = false;
-        if (!this.humanAssigned) {
+        if (Object.keys(this.players).length === 0) {
             isHuman = true;
-            this.humanAssigned = true;
         }
         this.players[socket.id] = new Player(socket.id, username, isHuman, x, y);
     }
