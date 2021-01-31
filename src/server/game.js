@@ -44,12 +44,15 @@ class Game {
     }
 
     checkCollision(p1, p2) {
-        let dist = Math.sqrt(abs(p2.x - p1.x) + abs(p2.y - p1.y));
-        if (dist < Constants.PLAYER_DIAMETER) {
-            return true;
-        } else {
-            return false;
+        if (p1 && p2) {
+            let dist = Math.sqrt(abs(p2.x - p1.x) + abs(p2.y - p1.y));
+            if (dist < Constants.PLAYER_DIAMETER) {
+                return true;
+            } else {
+                return false;
+            }
         }
+        return false;
     }
 
     update() {
@@ -93,6 +96,7 @@ class Game {
     createUpdate(player) {
         return {
             t: Date.now(),
+            humanId: this.humanId,
             me: player.serializeForUpdate(),
             others: Object.keys(this.players).filter(
                 playerId => playerId != player.id
@@ -103,7 +107,7 @@ class Game {
             captured: Object.keys(this.players).filter(playerId => {
                 let player = this.players[playerId];
                 return player.captured;
-            }),
+            }).map(player => { return player.username }),
         };
     }
 }

@@ -62,9 +62,11 @@ export function getCurrentState() {
 
         return {
             t: serverTime,
+            humanId: baseUpdate.humanId,
             me: interpolateObject(baseUpdate.me, next.me, ratio),
             others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
             timeRemaining: baseUpdate.timeRemaining,
+            captured: baseUpdate.captured,
         };
     }
 }

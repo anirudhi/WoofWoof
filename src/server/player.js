@@ -19,6 +19,7 @@ class Player {
             isHuman: this.isHuman,
             moving: this.moving,
             captured: this.captured,
+            username: this.username,
         };
     }
 

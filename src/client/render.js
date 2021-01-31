@@ -1,3 +1,4 @@
+import { underline, yellow } from 'kleur';
 import constants from '../shared/constants'
 import { play, updatePosition } from './networking';
 import { getCurrentState } from './state'
@@ -9,12 +10,15 @@ var curPlayers = {};
 var timeDisplay = "00:00";
 let timeText = null;
 let isCaptured = false;
+let capturedData = '';
+let capturedList = null;
+
+let myAudio;
 
 function fmtMSS(s) {
     s = Math.floor(s);
     return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
 }
-
 
 export function playGame() {
     var config = {
@@ -40,10 +44,12 @@ export function playGame() {
             width: constants.MAP_WIDTH,
             height: constants.MAP_HEIGHT,
         }
-
     };
 
     game = new Phaser.Game(config);
+    myAudio = new Audio('assets/woof.mp3');
+    myAudio.loop = true;
+    myAudio.play();
 }
 
 // Scene functions
@@ -71,14 +77,17 @@ function spawnPlayer(scene, id, x, y) {
 
 function buildWorld(scene) {
     scene.add.tileSprite(400, 300, 800, 600, 'ground');
-    timeText = scene.add.text(700, 10, timeDisplay, { fontFamily: 'I-pixel-u', fontSize: '20px' });
+    timeText = scene.add.text(700, 10, timeDisplay, { fontFamily: 'I-pixel-u', fontSize: '20px', color: '#FFFF00' });
+    let capturedtitle = scene.add.text(660, 40, "CAPTURED", { fontFamily: 'I-pixel-u', fontSize: '20px', textDecoration: 'underline' });
+    capturedList = scene.add.text(660, 65, capturedData, { fontFamily: 'I-pixel-u', fontSize: '20px', textDecoration: 'underline' });
+
 
     scene.walls = scene.physics.add.staticGroup();
     let b1 = scene.walls.create(200, 150, 'building1');
     b1.body.setSize(b1.width, 151);
     b1.body.setOffset(0, 0);
-    let w1 = scene.walls.create(b1.x+b1.width/2, b1.y+b1.height/2, 'wall1');
-    w1.setOrigin(0,0);
+    let w1 = scene.walls.create(b1.x + b1.width / 2, b1.y + b1.height / 2, 'wall1');
+    w1.setOrigin(0, 0);
 }
 
 function create() {
@@ -112,6 +121,12 @@ function renderPlayers(scene) {
         player = spawnPlayer(scene, serverUpdate.me.id, serverUpdate.me.x, serverUpdate.me.y);
     }
 
+    if (serverUpdate.me.isCaptured) {
+        isCaptured = true;
+        human = curPlayers[serverUpdate.humanId];
+        player.setPosition(human.x, human.y - 20);
+    }
+
     // update remote players
     serverUpdate.others.forEach((player => {
         if (!(player.id in curPlayers)) {
@@ -129,6 +144,14 @@ function renderPlayers(scene) {
         curPlayers[player.id].flipX = player.right;
     }));
 
+    capturedData = '';
+    serverUpdate.captured.forEach(username => {
+        if (username) {
+            capturedData += username + '\n';
+        }
+    })
+
+    capturedList.setText(capturedData);
 
     timeText.setText(fmtMSS(serverUpdate.timeRemaining));
 }
@@ -142,37 +165,40 @@ function update() {
     var xmov = 0;
     var ymov = 0;
 
-    if (cursors.left.isDown) {
-        xmov = -1;
-    }
-    if (cursors.right.isDown) {
-        xmov = 1;
-    }
-    if (cursors.down.isDown) {
-        ymov = 1;
-    }
-    if (cursors.up.isDown) {
-        ymov = -1;
-    }
+    if (!isCaptured) {
 
-    var length = Math.sqrt(xmov * xmov + ymov * ymov);
-    var xvel = 0;
-    var yvel = 0;
-    if (length > 0) {
-        xvel = (xmov / length) * 200;
-        yvel = (ymov / length) * 200;
+        if (cursors.left.isDown) {
+            xmov = -1;
+        }
+        if (cursors.right.isDown) {
+            xmov = 1;
+        }
+        if (cursors.down.isDown) {
+            ymov = 1;
+        }
+        if (cursors.up.isDown) {
+            ymov = -1;
+        }
 
-        if (xmov == 1) player.flipX = true;
-        else if (xmov == -1) player.flipX = false;
-        player.anims.play('left', true);
+        var length = Math.sqrt(xmov * xmov + ymov * ymov);
+        var xvel = 0;
+        var yvel = 0;
+        if (length > 0) {
+            xvel = (xmov / length) * 200;
+            yvel = (ymov / length) * 200;
+
+            if (xmov == 1) player.flipX = true;
+            else if (xmov == -1) player.flipX = false;
+            player.anims.play('left', true);
+        }
+        else {
+            player.anims.play('idle', true);
+        }
+
+        player.setVelocityX(xvel);
+        player.setVelocityY(yvel);
+
+        updatePosition({ x: player.x, y: player.y, right: player.flipX, moving: length > 0 });
     }
-    else {
-        player.anims.play('idle', true);
-    }
-
-    player.setVelocityX(xvel);
-    player.setVelocityY(yvel);
-
-    updatePosition({ x: player.x, y: player.y, right: player.flipX, moving: length > 0 });
 
 }
