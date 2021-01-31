@@ -31,6 +31,7 @@ export function playGame() {
             create: create,
             update: update
         },
+        pixelArt: true,
         scale: {
             mode: Phaser.Scale.FIT,
             autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -48,11 +49,11 @@ function init() {
 
 }
 
-
 // 'this' refers to a scene object
 function preload() {
     this.load.image('ground', 'assets/ground.svg');
     this.load.image('building1', 'assets/building1.png');
+    this.load.image('wall1', 'assets/wall1.png');
     this.load.spritesheet('dog', 'assets/dog.gif', { frameWidth: 32, frameHeight: 20 });
     cursors = this.input.keyboard.createCursorKeys();
 }
@@ -72,8 +73,10 @@ function buildWorld(scene) {
 
     scene.walls = scene.physics.add.staticGroup();
     let b1 = scene.walls.create(200, 150, 'building1');
-    b1.body.setSize(b1.width, 184);
+    b1.body.setSize(b1.width, 151);
     b1.body.setOffset(0, 0);
+    let w1 = scene.walls.create(b1.x+b1.width/2, b1.y+b1.height/2, 'wall1');
+    w1.setOrigin(0,0);
 }
 
 function create() {
