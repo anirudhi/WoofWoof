@@ -6,7 +6,7 @@ import render from './render';
 // import { initState } from './state';
 // import { setLeaderboardHidden } from './leaderboard';
 
-// import './css/main.css';
+import './css/main.css';
 
 const playMenu = document.getElementById('menu');
 const playButton = document.getElementById('play-button');
@@ -28,4 +28,4 @@ Promise.all([
         // startRendering();
         // setLeaderboardHidden(false);
     };
-});
+}).catch(console.error);

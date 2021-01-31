@@ -7,6 +7,7 @@ class Game {
         this.sockets = {};
         this.players = {};
         this.lastUpdateTime = Date.now();
+        this.gameStartTime = Date.now();
         this.shouldSendUpdate = false;
         this.humanAssigned = false;
         setInterval(this.update.bind(this), 1000 / 60);
@@ -62,6 +63,11 @@ class Game {
         }
     }
 
+    getTimeElapsed() {
+        let secs = (Date.now() - this.gameStartTime) / 1000;
+        return Constants.GAME_DURATION - secs;
+    }
+
     createUpdate(player) {
         return {
             t: Date.now(),
@@ -71,6 +77,7 @@ class Game {
             ).map(
                 playerId => this.players[playerId].serializeForUpdate()
             ),
+            timeRemaining: this.getTimeElapsed(),
         };
     }
 }

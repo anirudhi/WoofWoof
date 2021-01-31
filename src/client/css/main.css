@@ -1,0 +1,58 @@
+@font-face {
+    font-family: 'I-pixel-u';
+    src: url('/assets/I-pixel-u.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+#menu.hidden {
+    display: none;
+}
+
+body {
+    background-image: linear-gradient(340deg, #59dfbb, #e7475d);
+    background-size: 200% 200%;
+
+    -webkit-animation: Gride 1s ease infinite;
+    -moz-animation: Gride 1s ease infinite;
+    animation: Gride 1s ease infinite;
+}
+
+#menu {
+    display: grid;
+    width: 60%;
+    height: 50%;
+    margin: 100px auto;
+    grid-template-rows: auto auto auto;
+}
+
+img {
+    margin: 0 auto;
+}
+
+#username {
+    width: 250px;
+    height: 50px;
+    border-radius: 2px;
+    margin: 10px auto;
+    background-color: rgb(226, 210, 69);
+    font-size: 30px;
+    padding-left: 10px;
+    outline: none;
+    color: blue;
+    box-shadow: white;
+    font-family: 'I-pixel-u';
+}
+
+#play-button {
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: rgb(25, 43, 204);
+    font-size: 25px;
+    color: white;
+    box-shadow: white;
+    font-family: 'I-pixel-u';
+    margin: 10px auto;
+}

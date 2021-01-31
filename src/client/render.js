@@ -6,6 +6,12 @@ var game;
 var cursors;
 var player = null;
 var curPlayers = {};
+var timeDisplay = "00:00";
+let timeText = null;
+function fmtMSS(s) {
+    s = Math.floor(s);
+    return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
+}
 
 
 export function playGame() {
@@ -37,11 +43,11 @@ export function playGame() {
     game = new Phaser.Game(config);
 }
 
-
 // Scene functions
 function init() {
 
 }
+
 
 // 'this' refers to a scene object
 function preload() {
@@ -62,6 +68,7 @@ function spawnPlayer(scene, id, x, y) {
 
 function buildWorld(scene) {
     scene.add.tileSprite(400, 300, 800, 600, 'ground');
+    timeText = scene.add.text(700, 10, timeDisplay, { fontFamily: 'I-pixel-u', fontSize: '20px' });
 
     scene.walls = scene.physics.add.staticGroup();
     let b1 = scene.walls.create(200, 150, 'building1');
@@ -92,7 +99,7 @@ function create() {
 function renderPlayers(scene) {
     // console.log('curPlayers', Object.keys(curPlayers).length);
     // console.log('players', players.length);
-    
+
     let serverUpdate = getCurrentState();
 
     // spawn client player
@@ -116,6 +123,9 @@ function renderPlayers(scene) {
         curPlayers[player.id].setPosition(player.x, player.y);
         curPlayers[player.id].flipX = player.right;
     }));
+
+
+    timeText.setText(fmtMSS(serverUpdate.timeRemaining));
 }
 
 function update() {

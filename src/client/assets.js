@@ -1,4 +1,4 @@
-const ASSET_NAMES = [];
+const ASSET_NAMES = ['title.png'];
 
 const assets = {};
 const downloadPromise = Promise.all(ASSET_NAMES.map(downloadAsset));

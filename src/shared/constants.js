@@ -4,6 +4,7 @@ module.exports = Object.freeze({
 
   MAP_HEIGHT: 600,
   MAP_WIDTH: 800,
+  GAME_DURATION: 300,
   MSG_TYPES: {
     JOIN_GAME: 'join_game',
     GAME_UPDATE: 'update',
