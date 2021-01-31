@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="14.091321"
-     inkscape:cy="10.814143"
+     inkscape:zoom="15.839192"
+     inkscape:cx="9.8820418"
+     inkscape:cy="17.50044"
      inkscape:document-units="mm"
      inkscape:current-layer="g1610"
      inkscape:document-rotation="0"
@@ -123,8 +123,8 @@
          d="M 9.249166,4.4553943 V 10.805395"
          id="path1406-9" />
       <path
-         style="fill:#373e48;stroke:#214478;stroke-width:0.52916667;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-         d="M 0.14466441,0.01417409 V 6.3641743"
+         style="fill:#373e48;stroke:#214478;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 0.27675723,0.00582192 V 6.3558221"
          id="path1408-9" />
       <path
          style="fill:#2c5aa0;stroke:#214478;stroke-width:0.52916667;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
@@ -140,7 +140,7 @@
          id="path1416-7" />
       <path
          style="fill:#373e48;stroke:#688dc3;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="M 3.0881536,-2.111942 V 4.2380583"
+         d="M 2.922789,-2.1060361 V 4.2439642"
          id="path1490-4" />
       <path
          style="fill:#2c5aa0;stroke:#214478;stroke-width:0.52916667;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
@@ -203,15 +203,15 @@
          id="path1496-2-0" />
       <path
          style="fill:#373e48;stroke:#688dc3;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="M 3.0881536,4.7624999 V 11.1125"
+         d="M 2.9286949,4.7713587 V 11.109547"
          id="path900" />
       <path
          style="fill:#373e48;stroke:#688dc3;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="M 6.3245747,1.7386904 V 8.0886905"
+         d="M 6.2327008,1.7303382 V 8.0803383"
          id="path902" />
       <path
          style="fill:#373e48;stroke:#688dc3;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="M 6.3245747,-5.1357516 V 1.2142485"
+         d="M 6.241053,-5.156632 V 1.1933681"
          id="path904" />
     </g>
     <rect

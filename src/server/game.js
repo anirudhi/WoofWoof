@@ -23,9 +23,8 @@ class Game {
         const x = Constants.MAP_WIDTH * (0.25 + Math.random() * 0.5);
         const y = Constants.MAP_HEIGHT * (0.25 + Math.random() * 0.5);
         let isHuman = false;
-        if (!this.humanAssigned) {
+        if (Object.keys(this.players).length === 0) {
             isHuman = true;
-            this.humanAssigned = true;
             this.humanId = socket.id;
             this.gameStartTime = Date.now();
         }
@@ -45,7 +44,7 @@ class Game {
 
     checkCollision(p1, p2) {
         if (p1 && p2) {
-            let dist = Math.sqrt(abs(p2.x - p1.x) + abs(p2.y - p1.y));
+            let dist = Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
             if (dist < Constants.PLAYER_DIAMETER) {
                 return true;
             } else {
@@ -62,8 +61,8 @@ class Game {
         this.lastUpdateTime = now;
 
         // Update each player
+        const human = this.players[this.humanId];
         Object.keys(this.sockets).forEach(playerID => {
-            const human = this.players[this.humanId];
             const player = this.players[playerID];
             if (this.checkCollision(human, player) && (playerID != this.humanId)) {
                 player.setCaptured();
@@ -93,6 +92,13 @@ class Game {
         return Constants.GAME_DURATION - secs;
     }
 
+    getCaptured() {
+        return Object.keys(this.players).filter(playerId => {
+            let player = this.players[playerId];
+            return player.captured;
+        }).map(player => { return player.username });
+    }
+
     createUpdate(player) {
         return {
             t: Date.now(),
@@ -104,10 +110,7 @@ class Game {
                 playerId => this.players[playerId].serializeForUpdate()
             ),
             timeRemaining: this.getTimeElapsed(),
-            captured: Object.keys(this.players).filter(playerId => {
-                let player = this.players[playerId];
-                return player.captured;
-            }).map(player => { return player.username }),
+            captured: this.getCaptured(),
         };
     }
 }
