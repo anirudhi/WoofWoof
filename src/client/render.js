@@ -4,11 +4,8 @@ import { getCurrentState } from './state'
 
 var game;
 var cursors;
-var player;
+var player = null;
 var curPlayers = {};
-
-let lastServerTimeStamp = null;
-let myId = null;
 
 
 export function playGame() {
@@ -48,28 +45,20 @@ function init() {
 
 // 'this' refers to a scene object
 function preload() {
-    // this.load.setBaseURL('http://labs.phaser.io');
-
     this.load.image('ground', 'assets/map.png');
     this.load.spritesheet('dog', 'assets/dog.gif', { frameWidth: 32, frameHeight: 20 });
     cursors = this.input.keyboard.createCursorKeys();
-    // this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-    // this.load.image('red', 'assets/particles/red.png');
 }
 
-function addPlayer(scene, id, x, y) {
-    // console.log("adding player")
-    if (id != myId) {
-        curPlayers[id] = scene.add.sprite(x, y, 'dog');
-    }
+function spawnPlayer(scene, id, x, y) {
+    let newPlayer = scene.physics.add.sprite(x, y, 'dog');
+    newPlayer.setCollideWorldBounds(true);
+    return newPlayer;
 }
 
 function create() {
     this.add.tileSprite(400, 300, 800, 600, 'ground');
 
-    // omitting var makes it a global variable
-    player = this.physics.add.sprite(32, 20, 'dog');
-    player.setCollideWorldBounds(true);
     // this.physics.add.collider(player, somecollidergroup);
 
     this.anims.create({
@@ -85,38 +74,6 @@ function create() {
         frameRate: 10,
         repeat: -1 // repeat infinitely
     });
-
-    // var particles = this.add.particles('red');
-
-    // var emitter = particles.createEmitter({
-    //     speed: 100,
-    //     scale: { start: 1, end: 0 },
-    //     blendMode: 'ADD'
-    // });
-
-    // var logo = this.physics.add.image(400, 100, 'logo');
-
-    // logo.setVelocity(100, 200);
-    // logo.setBounce(1, 1);
-    // logo.setCollideWorldBounds(true);
-
-    // emitter.startFollow(logo);
-}
-
-export function updatePlayers(playerUpdate) {
-    if (!lastServerTimeStamp) {
-        lastServerTimeStamp = playerUpdate.t;
-    }
-    if (!myId) {
-        myId = playerUpdate.me.id;
-        // player.setPosition(playerUpdate.me.x, playerUpdate.me.y);
-
-    }
-    if (playerUpdate.t > lastServerTimeStamp) {
-        lastServerTimeStamp = playerUpdate.t;
-        players = playerUpdate.others;
-    }
-
 }
 
 function renderPlayers(scene) {
@@ -124,12 +81,16 @@ function renderPlayers(scene) {
     // console.log('players', players.length);
     
     let serverUpdate = getCurrentState();
-    // console.log('update', serverUpdate);
 
-    
+    // spawn client player
+    if (!player) {
+        player = spawnPlayer(scene, serverUpdate.me.id, serverUpdate.me.x, serverUpdate.me.y);
+    }
+
+    // update remote players
     serverUpdate.others.forEach((player => {
         if (!(player.id in curPlayers)) {
-            addPlayer(scene, player.id, player.x, player.y);
+            curPlayers[player.id] = spawnPlayer(scene, player.id, player.x, player.y);
         }
         let curPlayer = curPlayers[player.id];
 
