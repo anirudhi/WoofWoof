@@ -6,6 +6,7 @@ class Player {
         this.y = y;
         this.right = true;
         this.isHuman = isHuman;
+        this.moving = false;
     }
 
     serializeForUpdate() {
@@ -15,6 +16,7 @@ class Player {
             y: this.y,
             right: this.right,
             isHuman: this.isHuman,
+            moving: this.moving,
         };
     }
 
@@ -22,6 +24,7 @@ class Player {
         this.x = pos.x;
         this.y = pos.y;
         this.right = pos.right;
+        this.moving = pos.moving;
     }
 }
 

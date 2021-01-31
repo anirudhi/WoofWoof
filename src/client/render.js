@@ -6,7 +6,6 @@ var game;
 var cursors;
 var player;
 var curPlayers = {};
-// var players = [];
 
 let lastServerTimeStamp = null;
 let myId = null;
@@ -51,17 +50,17 @@ function init() {
 function preload() {
     // this.load.setBaseURL('http://labs.phaser.io');
 
-    this.load.image('ground', 'assets/gravel.png');
+    this.load.image('ground', 'assets/map.png');
     this.load.spritesheet('dog', 'assets/dog.gif', { frameWidth: 32, frameHeight: 20 });
     cursors = this.input.keyboard.createCursorKeys();
     // this.load.image('logo', 'assets/sprites/phaser3-logo.png');
     // this.load.image('red', 'assets/particles/red.png');
 }
 
-function addPlayer(id, x, y) {
+function addPlayer(scene, id, x, y) {
+    // console.log("adding player")
     if (id != myId) {
-        let newPlayer = this.add.sprite(x, y, 'dog');
-        curPlayers[id] = newPlayer;
+        curPlayers[id] = scene.add.sprite(x, y, 'dog');
     }
 }
 
@@ -83,13 +82,6 @@ function create() {
     this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('dog', { start: 8, end: 12 }),
-        frameRate: 10,
-        repeat: -1 // repeat infinitely
-    });
-
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('dog', { start: 14, end: 19 }),
         frameRate: 10,
         repeat: -1 // repeat infinitely
     });
@@ -127,7 +119,7 @@ export function updatePlayers(playerUpdate) {
 
 }
 
-function renderPlayers() {
+function renderPlayers(scene) {
     // console.log('curPlayers', Object.keys(curPlayers).length);
     // console.log('players', players.length);
     
@@ -135,18 +127,18 @@ function renderPlayers() {
     // console.log('update', serverUpdate);
 
     
-    // if (Object.keys(curPlayers).length != players.length) {
-    //     players.forEach(player => {
-    //         console.log(player);
-    //         if (!(player.id in Object.keys(curPlayers))) {
-    //             addPlayer(player.id, player.x, player.y);
-    //         }
-    //     });
-    // }
     serverUpdate.others.forEach((player => {
-        if (!(player.id in Object.keys(curPlayers))) {
-                addPlayer(player.id, player.x, player.y);
+        if (!(player.id in curPlayers)) {
+            addPlayer(scene, player.id, player.x, player.y);
         }
+        let curPlayer = curPlayers[player.id];
+
+        if (player.moving) {
+            curPlayer.anims.play('left', true)
+        } else {
+            curPlayer.anims.play('idle', true);
+        }
+
         curPlayers[player.id].setPosition(player.x, player.y);
         curPlayers[player.id].flipX = player.right;
     }));
@@ -156,8 +148,7 @@ function update() {
     // player.setVelocityX(0);
     // player.anims.play('idle', true);
 
-    renderPlayers();
-
+    renderPlayers(this);
 
     var xmov = 0;
     var ymov = 0;
@@ -193,6 +184,6 @@ function update() {
     player.setVelocityX(xvel);
     player.setVelocityY(yvel);
 
-    updatePosition({ x: player.x, y: player.y, right: player.flipX });
+    updatePosition({ x: player.x, y: player.y, right: player.flipX, moving: length > 0 });
 
 }
