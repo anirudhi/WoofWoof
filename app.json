@@ -1,0 +1,8 @@
+{
+    "name": "WoofWoof",
+    "description": "A barebones Node.js app using Express 4",
+    "repository": "https://github.com/anirudhi/WoofWoof",
+    "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/main/public/node.svg",
+    "keywords": ["node", "express", "game"],
+    "image": "https://github.com/anirudhi/WoofWoof"
+  }
