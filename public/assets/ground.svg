@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -108,14 +108,14 @@
        id="g1610"
        transform="translate(-0.01217373,-0.01535065)">
       <rect
-         style="fill:#4674b9;fill-opacity:1;stroke:none;stroke-width:0.599403"
+         style="fill:#41669d;fill-opacity:1;stroke:none;stroke-width:0.599403"
          id="rect1402-1"
          width="6.3499999"
          height="6.3499999"
          x="0.012173731"
          y="0.014173715" />
       <path
-         style="fill:#373e48;stroke:#214478;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:#373e48;stroke:#214478;stroke-width:0.52916667;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="M 3.3196637,0.01417409 V 6.3641743"
          id="path1404-1" />
       <path
@@ -123,11 +123,11 @@
          d="M 9.249166,4.4553943 V 10.805395"
          id="path1406-9" />
       <path
-         style="fill:#373e48;stroke:#214478;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:#373e48;stroke:#214478;stroke-width:0.52916667;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="M 0.14466441,0.01417409 V 6.3641743"
          id="path1408-9" />
       <path
-         style="fill:#2c5aa0;stroke:#214478;stroke-width:0.232137px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:#2c5aa0;stroke:#214478;stroke-width:0.52916667;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="M 0.12945201,4.5088174 H 3.2525041"
          id="path1410-4" />
       <path
@@ -139,11 +139,11 @@
          d="M 2.3463757,8.0650672 H 3.9338758"
          id="path1416-7" />
       <path
-         style="fill:#373e48;stroke:#214478;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="M 8.2144557,-0.05669645 V 6.2933038"
+         style="fill:#373e48;stroke:#688dc3;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 3.0881536,-2.111942 V 4.2380583"
          id="path1490-4" />
       <path
-         style="fill:#2c5aa0;stroke:#214478;stroke-width:0.232137px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:#2c5aa0;stroke:#214478;stroke-width:0.52916667;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="M 3.3325489,1.4643699 H 6.455601"
          id="path1492-3" />
       <path
@@ -201,6 +201,18 @@
          style="fill:#2c5aa0;stroke:#214478;stroke-width:0.233882px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 12.846466,13.691901 h 1.5875"
          id="path1496-2-0" />
+      <path
+         style="fill:#373e48;stroke:#688dc3;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 3.0881536,4.7624999 V 11.1125"
+         id="path900" />
+      <path
+         style="fill:#373e48;stroke:#688dc3;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 6.3245747,1.7386904 V 8.0886905"
+         id="path902" />
+      <path
+         style="fill:#373e48;stroke:#688dc3;stroke-width:0.26498px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 6.3245747,-5.1357516 V 1.2142485"
+         id="path904" />
     </g>
     <rect
        style="fill:#34598d;fill-opacity:1;stroke:none;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none"
