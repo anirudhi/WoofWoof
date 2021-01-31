@@ -1,6 +1,7 @@
 // The "current" state will always be RENDER_DELAY ms behind server time.
 // This makes gameplay smoother and lag less noticeable.
-const RENDER_DELAY = 100;
+// we keep underestimating server time tho
+const RENDER_DELAY = -100;
 
 const gameUpdates = [];
 let gameStart = 0;
@@ -47,32 +48,34 @@ export function getCurrentState() {
         return {};
     }
 
-    return gameUpdates[gameUpdates.length - 1];
-    
-    // No interpolation yet
-    // const base = getBaseUpdate();
-    // const serverTime = currentServerTime();
+    const base = getBaseUpdate();
+    const serverTime = currentServerTime();
 
-    // // If base is the most recent update we have, use its state.
-    // // Otherwise, interpolate between its state and the state of (base + 1).
-    // if (base < 0 || base === gameUpdates.length - 1) {
-    //     return gameUpdates[gameUpdates.length - 1];
-    // } else {
-    //     const baseUpdate = gameUpdates[base];
-    //     const next = gameUpdates[base + 1];
-    //     const ratio = (serverTime - baseUpdate.t) / (next.t - baseUpdate.t);
-    //     return {
-    //         me: interpolateObject(baseUpdate.me, next.me, ratio),
-    //         others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
-    //         bullets: interpolateObjectArray(baseUpdate.bullets, next.bullets, ratio),
-    //     };
-    // }
+    // If base is the most recent update we have, use its state.
+    // Otherwise, interpolate between its state and the state of (base + 1).
+    if (base < 0 || base === gameUpdates.length - 1) {
+        return gameUpdates[gameUpdates.length - 1];
+    } else {
+        let baseUpdate = gameUpdates[base];
+        const next = gameUpdates[base + 1];
+        const ratio = (serverTime - baseUpdate.t) / (next.t - baseUpdate.t);
+        
+        return {
+            t: serverTime,
+            me: interpolateObject(baseUpdate.me, next.me, ratio),
+            others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
+        };
+    }
 }
 
 function interpolateObject(object1, object2, ratio) {
     if (!object2) {
         return object1;
     }
+
+    object1.x = object1.x + (object2.x - object1.x) * ratio;
+    object1.y = object1.y + (object2.y - object1.y) * ratio;
+    return object1;
 
     const interpolated = {};
     Object.keys(object1).forEach(key => {
