@@ -45,7 +45,8 @@ function init() {
 
 // 'this' refers to a scene object
 function preload() {
-    this.load.image('ground', 'assets/map.png');
+    this.load.image('ground', 'assets/ground.svg');
+    this.load.image('building1', 'assets/building1.png');
     this.load.spritesheet('dog', 'assets/dog.gif', { frameWidth: 32, frameHeight: 20 });
     cursors = this.input.keyboard.createCursorKeys();
 }
@@ -53,11 +54,23 @@ function preload() {
 function spawnPlayer(scene, id, x, y) {
     let newPlayer = scene.physics.add.sprite(x, y, 'dog');
     newPlayer.setCollideWorldBounds(true);
+    newPlayer.body.setSize(24, 5);
+    newPlayer.body.setOffset(0, 15);
+    scene.physics.add.collider(newPlayer, scene.walls);
     return newPlayer;
 }
 
+function buildWorld(scene) {
+    scene.add.tileSprite(400, 300, 800, 600, 'ground');
+
+    scene.walls = scene.physics.add.staticGroup();
+    let b1 = scene.walls.create(200, 150, 'building1');
+    b1.body.setSize(b1.width, 184);
+    b1.body.setOffset(0, 0);
+}
+
 function create() {
-    this.add.tileSprite(400, 300, 800, 600, 'ground');
+    buildWorld(this);
 
     // this.physics.add.collider(player, somecollidergroup);
 
