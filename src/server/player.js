@@ -7,6 +7,7 @@ class Player {
         this.right = true;
         this.isHuman = isHuman;
         this.moving = false;
+        this.captured = false;
     }
 
     serializeForUpdate() {
@@ -17,7 +18,12 @@ class Player {
             right: this.right,
             isHuman: this.isHuman,
             moving: this.moving,
+            captured: this.captured,
         };
+    }
+
+    setCaptured() {
+        this.captured = true;
     }
 
     setPosition(pos) {

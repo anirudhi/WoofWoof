@@ -8,6 +8,8 @@ var player = null;
 var curPlayers = {};
 var timeDisplay = "00:00";
 let timeText = null;
+let isCaptured = false;
+
 function fmtMSS(s) {
     s = Math.floor(s);
     return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
